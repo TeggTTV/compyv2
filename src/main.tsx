@@ -6,6 +6,8 @@ import './assets/fonts/inter4.0/web/inter.css';
 import Navbar from './Navbar';
 import { Toaster } from '@/components/ui/toaster';
 import Hero from './Hero';
+import Services from './Services';
+import Pricing from './Pricing';
 
 const theme: string = 'dark';
 
@@ -14,9 +16,8 @@ createRoot(document.getElementById('root')!).render(
 	<StrictMode>
 		<Navbar />
 		<Hero theme={theme} />
-		<section className='w-full h-[400px] bg-black'>
-
-		</section>
+		<Pricing />
+		{/* <Services /> */}
 		<Toaster />
 	</StrictMode>
 );

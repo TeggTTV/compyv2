@@ -1,12 +1,14 @@
+const { nextui } = require('@nextui-org/theme');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	darkMode: ['class'],
-	content: [
-		'./pages/**/*.{ts,tsx}',
-		'./components/**/*.{ts,tsx}',
-		'./app/**/*.{ts,tsx}',
-		'./src/**/*.{ts,tsx}',
-	],
+  content: [
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+    "./node_modules/@nextui-org/theme/dist/components/(avatar|badge|divider).js"
+  ],
 	prefix: '',
 	theme: {
 		container: {
@@ -103,8 +105,19 @@ module.exports = {
 							'calc(100% + var(--shimmer-width)) 0',
 					},
 				},
+				marquee: {
+					from: { transform: 'translateX(0)' },
+					to: { transform: 'translateX(calc(-100% - var(--gap)))' },
+				},
+				'marquee-vertical': {
+					from: { transform: 'translateY(0)' },
+					to: { transform: 'translateY(calc(-100% - var(--gap)))' },
+				},
 			},
 			animation: {
+				marquee: 'marquee var(--duration) linear infinite',
+				'marquee-vertical':
+					'marquee-vertical var(--duration) linear infinite',
 				shimmer: 'shimmer 8s infinite',
 				meteor: 'meteor 5s linear infinite',
 				'border-beam':
@@ -114,5 +127,5 @@ module.exports = {
 			},
 		},
 	},
-	plugins: [require('tailwindcss-animate')],
+	// plugins: [require(tailwindcss - animate), nextui()],
 };

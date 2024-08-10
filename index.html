@@ -16,19 +16,40 @@
 				const notificationsContent =
 					document.getElementById('noti-menu');
 
+				const userIcon =
+					document.getElementById('userIcon');
+				const userContent =
+					document.getElementById('user-menu');
+
 				// Show notifications content when the notification bell is clicked
 				notificationBell?.addEventListener('click', function () {
-          if (notificationsContent?.classList.contains('hidden')) {
-            notificationsContent?.classList.remove('hidden');
-          } else {
-            notificationsContent?.classList.add('hidden');
-          }
+					if (notificationsContent?.classList.contains('hidden')) {
+						notificationsContent?.classList.remove('hidden');
+					} else {
+						notificationsContent?.classList.add('hidden');
+					}
 				});
 
 				// Hide notifications content when clicking outside of the notification bell
 				document.addEventListener('click', function (event) {
 					if (!notificationBell?.contains(event.target)) {
 						notificationsContent?.classList.add('hidden');
+					}
+				});
+
+				// Show user content when the user icon is clicked
+				userIcon?.addEventListener('click', function () {
+					if (userContent?.classList.contains('hidden')) {
+						userContent?.classList.remove('hidden');
+					} else {
+						userContent?.classList.add('hidden');
+					}
+				});
+
+				// Hide user content when clicking outside of the user icon
+				document.addEventListener('click', function (event) {
+					if (!userIcon?.contains(event.target)) {
+						userContent?.classList.add('hidden');
 					}
 				});
 			};

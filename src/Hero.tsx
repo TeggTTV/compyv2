@@ -3,11 +3,12 @@ import { ArrowRight, ChevronRight } from 'lucide-react';
 // import Meteors from './components/magicui/meteors';
 import Particles from './components/magicui/particles';
 import AnimatedShinyText from './components/magicui/animated-shiny-text';
+import WordFadeIn from './components/magicui/word-fade-in';
 // import SparklesText from './components/magicui/sparkles-text';
 
 function Hero(props: { theme: string }) {
 	return (
-		<section className="relative overflow-hidden bg-white dark:bg-gray-900 after:content-[''] after:absolute dark:after:w-full dark:after:h-full dark:after:top-0 after:bg-gradient-to-b dark:after:from-transparent light:after:to-white dark:after:to-black after:z-[-1] z-10">
+		<section className="md:h-[calc(90vh-72px)] h-[calc(80vh-72px)] relative overflow-hidden bg-white dark:bg-gray-900 after:content-[''] after:absolute dark:after:w-full dark:after:h-full dark:after:top-0 after:bg-gradient-to-b dark:after:from-transparent light:after:to-white dark:after:to-black after:z-[-1] z-10">
 			<Particles
 				className="absolute inset-0"
 				quantity={100}
@@ -31,9 +32,11 @@ function Hero(props: { theme: string }) {
 					</AnimatedShinyText>
 					<ChevronRight className="w-5 h-5 ml-2" />
 				</a>
-				<h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-					Games That Kids Love
-				</h1>
+
+				<WordFadeIn
+					words="Games That Kids Love"
+					className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white"
+				></WordFadeIn>
 				<p className="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">
 					Here at compy, we have a wide range of games that kids love.
 					Our games are designed to be fun and educational, so your
@@ -42,7 +45,7 @@ function Hero(props: { theme: string }) {
 				<div className="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
 					<a
 						href="#"
-						className="relative inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-primary-800"
+						className="relative inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-[24px] bg-blue-700 hover:bg-primary-800"
 					>
 						Get Started
 						<ArrowRight className="ml-2 -mr-1 w-6 h-6" />
