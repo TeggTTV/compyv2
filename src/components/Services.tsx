@@ -41,7 +41,7 @@
 // 	);
 // };
 
-import { MagicCard } from './components/magicui/magic-card';
+import { MagicCard } from './magicui/magic-card';
 
 function Services() {
 	return (

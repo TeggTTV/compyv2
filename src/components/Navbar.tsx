@@ -1,0 +1,312 @@
+import { Bell, User } from 'lucide-react';
+
+import { Avatar, Badge } from '@nextui-org/react';
+import { useState } from 'react';
+
+function Navbar() {
+	const [notis, setNotis] = useState([
+		{
+			title: 'Welcome! 🎉',
+			desc: "Make sure to create an accout if you don't have one already. You will be able to track your progress and save your favorite games.",
+			seen: false,
+			onclick: () => {
+				// toast('Welcome! 🎉');
+			},
+		},
+	]);
+
+	const [userNotis] = useState([
+		{
+			id: 'Settings',
+		},
+	]);
+
+	// function addNoti(title: string, desc: string) {
+	// 	setNotis([...notis, { title, desc }]);
+	// }
+
+	function getUnseenNotis(notis: { seen: boolean }[]) {
+		return notis.filter((noti) => !noti.seen);
+	}
+
+	return (
+		<header className="w-full h-15">
+			<nav className="z-20 w-full h-15 flex items-center justify-center px-10 py-4 bg-gray-900">
+				<div className="max-w-7xl w-full h-full flex justify-between dark:bg-gray-900">
+					<div className="flex justify-between gap-20">
+						<div className="self-center font-medium dark:text-gray-100">
+							compy.
+						</div>
+
+						<div className="self-center hidden md:inline-block">
+							<a
+								href="#"
+								className="text-gray-900 px-3 rounded-2xl text-sm font-medium dark:text-gray-100"
+								aria-current="page"
+							>
+								Dashboard
+							</a>
+							<a
+								href="#"
+								className="text-gray-500 px-3 rounded-2xl text-sm font-medium dark:text-gray-100"
+							>
+								Search Games
+							</a>
+							<a
+								href="#"
+								className="text-gray-500 px-3 rounded-2xl text-sm font-medium dark:text-gray-100 dark:bg-blue-700 inline-block h-15 py-1"
+							>
+								Join Game
+							</a>
+						</div>
+					</div>
+					<div className="flex gap-8 items-center justify-center">
+						{/* <SparklesText
+							className="cursor-pointer text-center text-gray-500 px-3 rounded-2xl text-sm font-medium dark:text-gray-100 dark:bg-blue-700 inline-block h-15 py-1"
+							text="Sign Up"
+							sparklesCount={5}
+							
+						/> */}
+						<a
+							href="#"
+							className="text-gray-500 py-2 rounded-2xl text-sm font-medium dark:text-gray-100 relative"
+						>
+							<Badge
+								content={
+									getUnseenNotis(notis).length > 0
+										? getUnseenNotis(notis).length
+										: ''
+								}
+								className={
+									getUnseenNotis(notis).length > 0
+										? 'text-white pointer-events-none'
+										: 'hidden'
+								}
+								color={
+									getUnseenNotis(notis).length > 0
+										? 'primary'
+										: 'success'
+								}
+							>
+								<Bell id="notificationBell" />
+							</Badge>
+							{/* notifcation menu that opens on bell click */}
+							<div
+								id="noti-menu"
+								className="w-96 z-20 hidden absolute right-0 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-2xl shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+							>
+								{notis.map((noti, index) => (
+									<div key={index} className="px-1 py-1">
+										<div
+											className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+											onClick={() => {
+												noti.onclick();
+											}}
+											onMouseOver={() => {
+												setNotis(
+													notis.map((e, i) => {
+														if (i === index) {
+															return {
+																...e,
+																seen: true,
+															};
+														}
+														return e;
+													})
+												);
+											}}
+										>
+											<div className="text-lg font-medium flex items-center justify-between">
+												{noti.title}
+
+												{noti.seen ? (
+													''
+												) : (
+													<span className="inline-block relative bg-primary rounded-full w-3 h-3"></span>
+												)}
+											</div>
+											<div className="text-sm font-light">
+												{noti.desc}
+											</div>
+										</div>
+									</div>
+								))}
+								<div className="px-1 py-1 ">
+									<div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+										View all
+									</div>
+								</div>
+							</div>
+						</a>
+						<a
+							href="#"
+							className="text-gray-500 py-2 rounded-2xl text-sm font-medium dark:text-gray-100 relative"
+						>
+							<Badge
+								content={
+									userNotis.length > 0 ? userNotis.length : ''
+								}
+								className={
+									userNotis.length > 0
+										? 'text-white pointer-events-none'
+										: 'hidden'
+								}
+								color={
+									userNotis.length > 0 ? 'primary' : 'success'
+								}
+							>
+								<User id="userIcon" />
+							</Badge>
+							{/* notifcation menu that opens on bell click */}
+							<div
+								id="user-menu"
+								className="w-52 z-20 hidden absolute right-0 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-2xl shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+							>
+								<div className="px-1 py-1">
+									<div className="block px-4 py-2 text-sm text-gray-700">
+										<div className="h-14 mb-2 flex items-center justify-between">
+											<div className="text-lg font-medium ">
+												Account
+											</div>
+											<div className="text-lg font-light flex items-center">
+												<Avatar
+												// src="https://i.pravatar.cc/150?u=a04258114e29026702d"
+												/>
+											</div>
+										</div>
+										{['Settings', 'Darkmode'].map(
+											(id, index) => {
+												return (
+													<div key={index}>
+														{userNotis.find((e) => {
+															return e.id === id;
+														}) ? (
+															<div
+																className="text-sm font-light hover:bg-gray-300 py-2 px-2 -ml-1 flex
+											items-center justify-between"
+															>
+																{id}
+																<div className="inline-block bg-primary rounded-full w-3 h-3"></div>
+															</div>
+														) : (
+															<div className="text-sm font-light hover:bg-gray-300 py-2 px-2 -ml-1">
+																{id}
+															</div>
+														)}
+													</div>
+												);
+											}
+										)}
+
+										<div className="text-sm font-light hover:bg-gray-300 py-2 px-2 -ml-1">
+											Sign Out
+										</div>
+									</div>
+								</div>
+							</div>
+						</a>
+
+						<div className="md:hidden flex justify-center">
+							<button className="navbar-burger flex items-center text-gray-100">
+								<svg
+									className="block h-4 w-4 fill-current"
+									viewBox="0 0 20 20"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<title>Mobile menu</title>
+									<path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
+								</svg>
+							</button>
+						</div>
+					</div>
+				</div>
+			</nav>
+			<div className="navbar-menu relative z-50 hidden">
+				<div className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>
+				<nav className="fixed top-0 left-0 bottom-0 flex flex-col w-60 max-w-sm py-6 px-6 bg-gray-900 border-r overflow-y-auto">
+					<div className="flex items-center mb-8">
+						<a
+							className="mr-auto text-3xl font-bold leading-none text-gray-100"
+							href="#"
+						>
+							compy.
+						</a>
+						<button className="navbar-close">
+							<svg
+								className="h-6 w-6 text-gray-400 cursor-pointer hover:text-gray-500"
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth="2"
+									d="M6 18L18 6M6 6l12 12"
+								></path>
+							</svg>
+						</button>
+					</div>
+					<div>
+						<ul>
+							<li className="mb-1">
+								<a
+									className="block p-4 text-sm font-semibold text-gray-200 hover:bg-gray-50 hover:text-primary rounded"
+									href="#"
+								>
+									Home
+								</a>
+							</li>
+							<li className="mb-1">
+								<a
+									className="block p-4 text-sm font-semibold text-gray-200 hover:bg-gray-50 hover:text-primary rounded"
+									href="#"
+								>
+									Dashboard
+								</a>
+							</li>
+							<li className="mb-1">
+								<a
+									className="block p-4 text-sm font-semibold text-gray-200 hover:bg-gray-50 hover:text-primary rounded"
+									href="#"
+								>
+									Search Games
+								</a>
+							</li>
+							<li className="mb-1">
+								<a
+									className="block p-4 text-sm font-semibold text-gray-200 hover:bg-gray-50 hover:text-primary rounded"
+									href="#"
+								>
+									Join Game
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div className="mt-auto">
+						<div className="pt-6">
+							<a
+								className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold text-gray-900 bg-gray-100 hover:bg-gray-50 rounded-xl"
+								href="#"
+							>
+								Sign in
+							</a>
+							<a
+								className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-primary hover:bg-blue-700  rounded-xl"
+								href="#"
+							>
+								Sign Up
+							</a>
+						</div>
+						<p className="my-4 text-xs text-center text-gray-400">
+							<span>Copyright © 2024</span>
+						</p>
+					</div>
+				</nav>
+			</div>
+		</header>
+	);
+}
+
+export default Navbar;

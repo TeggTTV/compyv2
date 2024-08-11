@@ -1,9 +1,9 @@
 function Pricing() {
 	return (
-		<section className="xl:h-screen lg:h-[200vh] md:h-[250vh] sm:h-[350vh] dark:bg-black flex justify-center">
+		<section className="xl:h-screen dark:bg-black flex justify-center">
 			<div className="max-w-7xl w-full relative">
 				<div
-					className="z-50 relative text-4xl font-extrabold tracking-tight leading-none text-white
+					className="z-10 relative text-4xl font-extrabold tracking-tight leading-none text-white
 					md:text-5xl lg:text-6xl dark:text-white xl:w-[30ch] mb-10 text-center md:text-center xl:text-left lg:ml-10"
 				>
 					Our{' '}
@@ -15,7 +15,7 @@ function Pricing() {
 					</div>{' '}
 					Plans
 				</div>
-				<div className="w-full bg-red flex gap-10 relative justify-center flex-col sm:flex-row  flex-wrap">
+				<div className="py-10 w-full bg-red flex gap-10 relative justify-center flex-col sm:flex-row flex-wrap items-center">
 					{[
 						{
 							name: 'Free Plan',

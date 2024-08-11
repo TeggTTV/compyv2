@@ -1,9 +1,9 @@
 import { ArrowRight, ChevronRight } from 'lucide-react';
 // import { BorderBeam } from './components/magicui/border-beam';
 // import Meteors from './components/magicui/meteors';
-import Particles from './components/magicui/particles';
-import AnimatedShinyText from './components/magicui/animated-shiny-text';
-import WordFadeIn from './components/magicui/word-fade-in';
+import Particles from './magicui/particles';
+import AnimatedShinyText from './magicui/animated-shiny-text';
+import WordFadeIn from './magicui/word-fade-in';
 // import SparklesText from './components/magicui/sparkles-text';
 
 function Hero(props: { theme: string }) {
@@ -27,7 +27,7 @@ function Hero(props: { theme: string }) {
 					</span>{' '}
 					<AnimatedShinyText>
 						<span className="text-sm font-medium">
-							compy is here! Get started with our new games.
+							compy is here! Get started with our games.
 						</span>
 					</AnimatedShinyText>
 					<ChevronRight className="w-5 h-5 ml-2" />

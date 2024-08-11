@@ -3,21 +3,20 @@ import { createRoot } from 'react-dom/client';
 import './globals.css';
 import './assets/fonts/inter4.0/web/inter.css';
 
-import Navbar from './Navbar';
-import { Toaster } from '@/components/ui/toaster';
-import Hero from './Hero';
-import Services from './Services';
-import Pricing from './Pricing';
-
-const theme: string = 'dark';
-
+// import Landing from './pages/Landing';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Landing from './pages/Landing';
+import Dashboard from './pages/Dashboard';
 
 createRoot(document.getElementById('root')!).render(
 	<StrictMode>
-		<Navbar />
-		<Hero theme={theme} />
-		<Pricing />
-		{/* <Services /> */}
-		<Toaster />
+		<BrowserRouter>
+			<Routes>
+				<Route path="/">
+					<Route path="/" element={<Landing />} />
+					<Route path="dashboard" element={<Dashboard />} /> 
+				</Route>
+			</Routes>
+		</BrowserRouter>
 	</StrictMode>
 );
