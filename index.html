@@ -1,93 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
-	<head>
-		<meta charset="UTF-8" />
-		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Vite + React + TS</title>
-	</head>
-	<body>
-		<div id="root"></div>
-		<script type="module" src="/src/main.tsx"></script>
-		<script>
-			window.onload = () => {
-				const notificationBell =
-					document.getElementById('notificationBell');
-				const notificationsContent =
-					document.getElementById('noti-menu');
-
-				const userIcon = document.getElementById('userIcon');
-				const userContent = document.getElementById('user-menu');
-
-				// Show notifications content when the notification bell is clicked
-				notificationBell?.addEventListener('click', function () {
-					if (notificationsContent?.classList.contains('hidden')) {
-						notificationsContent?.classList.remove('hidden');
-					} else {
-						notificationsContent?.classList.add('hidden');
-					}
-				});
-
-				// Hide notifications content when clicking outside of the notification bell
-				document.addEventListener('click', function (event) {
-					if (!notificationBell?.contains(event.target)) {
-						notificationsContent?.classList.add('hidden');
-					}
-				});
-
-				// Show user content when the user icon is clicked
-				userIcon?.addEventListener('click', function () {
-					if (userContent?.classList.contains('hidden')) {
-						userContent?.classList.remove('hidden');
-					} else {
-						userContent?.classList.add('hidden');
-					}
-				});
-
-				// Hide user content when clicking outside of the user icon
-				document.addEventListener('click', function (event) {
-					if (!userIcon?.contains(event.target)) {
-						userContent?.classList.add('hidden');
-					}
-				});
-
-				const burger = document.querySelectorAll('.navbar-burger');
-				const menu = document.querySelectorAll('.navbar-menu');
-
-				if (burger.length && menu.length) {
-					for (var i = 0; i < burger.length; i++) {
-						burger[i].addEventListener('click', function () {
-							for (var j = 0; j < menu.length; j++) {
-								menu[j].classList.toggle('hidden');
-							}
-						});
-					}
-				}
-
-				// close
-				const close = document.querySelectorAll('.navbar-close');
-				const backdrop = document.querySelectorAll('.navbar-backdrop');
-
-				if (close.length) {
-					for (var i = 0; i < close.length; i++) {
-						close[i].addEventListener('click', function () {
-							for (var j = 0; j < menu.length; j++) {
-								menu[j].classList.toggle('hidden');
-							}
-						});
-					}
-				}
-
-				if (backdrop.length) {
-					for (var i = 0; i < backdrop.length; i++) {
-						backdrop[i].addEventListener('click', function () {
-							for (var j = 0; j < menu.length; j++) {
-								menu[j].classList.toggle('hidden');
-							}
-						});
-					}
-				}
-			};
-		</script>
-	</body>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>compy.</title>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script type="module" src="/src/main.tsx"></script>
+        <script>
+            window.onload = () => {
+            };
+        </script>
+    </body>
 </html>
