@@ -13,6 +13,14 @@ function Navbar() {
 				// toast('Welcome! 🎉');
 			},
 		},
+		{
+			title: "You're doing great! 🚀",
+			desc: 'Keep up the good work and keep playing!',
+			seen: false,
+			onclick: () => {
+				// toast("You're doing great! 🚀");
+			},
+		}
 	]);
 
 	const [userNotis] = useState([
@@ -30,8 +38,8 @@ function Navbar() {
 	}
 
 	return (
-		<header className="w-full h-15">
-			<nav className="z-20 w-full h-15 flex items-center justify-center px-10 py-4 bg-gray-900">
+		<header className="w-full">
+			<nav className="h-20 z-20 w-full flex items-center justify-center px-10 py-4 bg-gray-900">
 				<div className="max-w-7xl w-full h-full flex justify-between dark:bg-gray-900">
 					<div className="flex justify-between gap-20">
 						<div className="self-center font-medium dark:text-gray-100">
@@ -54,7 +62,7 @@ function Navbar() {
 							</a>
 							<a
 								href="#"
-								className="text-gray-500 px-3 rounded-2xl text-sm font-medium dark:text-gray-100 dark:bg-blue-700 inline-block h-15 py-1"
+								className="text-gray-500 px-3 rounded-2xl text-sm font-medium dark:text-gray-100 dark:bg-blue-700 inline-block py-1"
 							>
 								Join Game
 							</a>
@@ -62,14 +70,13 @@ function Navbar() {
 					</div>
 					<div className="flex gap-8 items-center justify-center">
 						{/* <SparklesText
-							className="cursor-pointer text-center text-gray-500 px-3 rounded-2xl text-sm font-medium dark:text-gray-100 dark:bg-blue-700 inline-block h-15 py-1"
+							className="cursor-pointer text-center text-gray-500 px-3 rounded-2xl text-sm font-medium dark:text-gray-100 dark:bg-blue-700 inline-block py-1"
 							text="Sign Up"
 							sparklesCount={5}
 							
 						/> */}
-						<a
-							href="#"
-							className="text-gray-500 py-2 rounded-2xl text-sm font-medium dark:text-gray-100 relative"
+						<div
+							className="cursor-pointer text-gray-500 py-2 rounded-2xl text-sm font-medium dark:text-gray-100 relative"
 						>
 							<Badge
 								content={
@@ -137,10 +144,9 @@ function Navbar() {
 									</div>
 								</div>
 							</div>
-						</a>
-						<a
-							href="#"
-							className="text-gray-500 py-2 rounded-2xl text-sm font-medium dark:text-gray-100 relative"
+						</div>
+						<div
+							className="cursor-pointer text-gray-500 py-2 rounded-2xl text-sm font-medium dark:text-gray-100 relative"
 						>
 							<Badge
 								content={
@@ -204,7 +210,7 @@ function Navbar() {
 									</div>
 								</div>
 							</div>
-						</a>
+						</div>
 
 						<div className="md:hidden flex justify-center">
 							<button className="navbar-burger flex items-center text-gray-100">

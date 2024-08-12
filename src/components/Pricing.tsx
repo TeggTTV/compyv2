@@ -19,7 +19,7 @@ function Pricing() {
 					{[
 						{
 							name: 'Free Plan',
-							price: '0$',
+							price: '$0',
 							monthly: '/Month',
 							essential: 'Everything Nessecary to get started.',
 							perks: [
@@ -31,7 +31,7 @@ function Pricing() {
 						},
 						{
 							name: 'Basic Plan',
-							price: '15$',
+							price: '$15',
 							monthly: '/Month',
 							essential:
 								'All the features of our Free Plan + More fun.',
@@ -44,7 +44,7 @@ function Pricing() {
 						},
 						{
 							name: 'Premium Plan',
-							price: '25$',
+							price: '$25',
 							monthly: '/Month',
 							essential:
 								'Everything you could ever need for maxmium fun and enjoyment.',
