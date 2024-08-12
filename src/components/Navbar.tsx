@@ -85,7 +85,7 @@ function Navbar() {
                             to="/"
                             className="self-center font-medium dark:text-gray-100"
                         >
-                            compyi.
+                            compy.
                         </Link>
 
                         <div className="self-center hidden md:inline-block">
@@ -284,7 +284,7 @@ function Navbar() {
                                 className="mr-auto text-3xl font-bold leading-none text-gray-100"
                                 to="/"
                             >
-                                compyi.
+                                compy.
                             </Link>
                             <div className="" onClick={() => setMobileMenuOpen(false)}>
                                 <svg
