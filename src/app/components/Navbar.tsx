@@ -1,10 +1,22 @@
+"use client";
+
 import { Bell, User } from "lucide-react";
 
 import { Avatar, Badge } from "@nextui-org/react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+
+import {
+    SignedIn,
+    SignedOut,
+    SignUpButton,
+    SignInButton,
+    SignOutButton,
+    useClerk
+} from "@clerk/clerk-react";
+import Link from "next/link";
 
 function Navbar() {
+    const { openUserProfile } = useClerk();
     const [notis, setNotis] = useState([
         {
             title: "Welcome! 🎉",
@@ -25,13 +37,17 @@ function Navbar() {
     ]);
 
     const [userNotis] = useState([
-        {
-            id: "Settings",
-        },
     ]);
 
+    const options = [{
+        name: "Account Settings", onClick: () => {
+            openUserProfile();
+        },
+        signedIn: true
+    }];
+
     // function addNoti(title: string, desc: string) {
-    // 	setNotis([...notis, { title, desc }]);
+    //     setNotis([...notis, { title, desc }]);
     // }
 
     function getUnseenNotis(notis: { seen: boolean }[]) {
@@ -82,7 +98,7 @@ function Navbar() {
                 <div className="max-w-7xl w-full h-full flex justify-between dark:bg-gray-900">
                     <div className="flex justify-between gap-20">
                         <Link
-                            to="/"
+                            href={"/"}
                             className="self-center font-medium dark:text-gray-100"
                         >
                             compy.
@@ -90,7 +106,7 @@ function Navbar() {
 
                         <div className="self-center hidden md:inline-block">
                             <Link
-                                to="/dashboard"
+                                href="/dashboard"
                                 className="text-gray-900 px-3 rounded-2xl text-sm font-medium dark:text-gray-100"
                                 aria-current="page"
                             >
@@ -217,42 +233,59 @@ function Navbar() {
                                                     Account
                                                 </div>
                                                 <div className="text-lg font-light flex items-center">
-                                                    <Avatar
-                                                    // src="https://i.pravatar.cc/150?u=a04258114e29026702d"
-                                                    />
+                                                    <SignedIn>
+                                                        <Avatar
+                                                        // src="https://i.pravatar.cc/150?u=a04258114e29026702d"
+                                                        />
+                                                    </SignedIn>
+                                                    <SignedOut>
+                                                        <Avatar
+                                                        // src="https://i.pravatar.cc/150?u=a04258114e29026702d"
+                                                        />
+
+                                                    </SignedOut>
                                                 </div>
                                             </div>
-                                            {["Settings", "Darkmode"].map(
-                                                (id, index) => {
-                                                    return (
-                                                        <div key={index}>
-                                                            {userNotis.find(
-                                                                (e) => {
-                                                                    return (
-                                                                        e.id ===
-                                                                        id
-                                                                    );
-                                                                }
-                                                            ) ? (
-                                                                <div
-                                                                    className="text-sm font-light hover:bg-gray-300 py-2 px-2 -ml-1 flex
+                                            {options.map(
+                                                (option, index) => {
+                                                    if (!option.signedIn)
+                                                        return (
+                                                            <div key={index}>
+                                                                {userNotis.find(
+                                                                    (e) => {
+                                                                        return (
+                                                                            e.id ===
+                                                                            option.name
+                                                                        );
+                                                                    }
+                                                                ) ? (
+                                                                    <div
+                                                                        className="text-sm font-light hover:bg-gray-300 py-2 px-2 -ml-1 flex
 											items-center justify-between"
-                                                                >
-                                                                    {id}
-                                                                    <div className="inline-block bg-primary rounded-full w-3 h-3"></div>
-                                                                </div>
-                                                            ) : (
-                                                                <div className="text-sm font-light hover:bg-gray-300 py-2 px-2 -ml-1">
-                                                                    {id}
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                    );
+                                                                        onClick={option.onClick}
+                                                                    >
+                                                                        {option.name}
+                                                                        <div className="inline-block bg-primary rounded-full w-3 h-3"></div>
+                                                                    </div>
+                                                                ) : (
+                                                                    <div className="text-sm font-light hover:bg-gray-300 py-2 px-2 -ml-1" onClick={
+                                                                        option.onClick
+                                                                    }>
+                                                                        {option.name}
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        );
                                                 }
                                             )}
 
                                             <div className="text-sm font-light hover:bg-gray-300 py-2 px-2 -ml-1">
-                                                Sign Out
+                                                <SignedOut>
+                                                    <SignInButton />
+                                                </SignedOut>
+                                                <SignedIn>
+                                                    <SignOutButton />
+                                                </SignedIn>
                                             </div>
                                         </div>
                                     </div>
@@ -277,12 +310,18 @@ function Navbar() {
             </nav>
             {mobileMenuOpen ? (
                 <div className="relative z-50">
-                    <div className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>
+                    <div className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25" onClick={
+                        () => {
+                            setMobileMenuOpen(false);
+                            setNotiOpen(false);
+                            setUserOpen(false);
+                        }
+                    }></div>
                     <nav className="fixed top-0 left-0 bottom-0 flex flex-col w-60 max-w-sm py-6 px-6 bg-gray-900 border-r overflow-y-auto">
                         <div className="flex items-center mb-8">
                             <Link
                                 className="mr-auto text-3xl font-bold leading-none text-gray-100"
-                                to="/"
+                                href="/"
                             >
                                 compy.
                             </Link>
@@ -308,7 +347,7 @@ function Navbar() {
                                 <li className="mb-1">
                                     <Link
                                         className="block p-4 text-sm font-semibold text-gray-200 hover:bg-gray-50 hover:text-primary rounded"
-                                        to="/"
+                                        href="/"
                                     >
                                         Home
                                     </Link>
@@ -316,7 +355,7 @@ function Navbar() {
                                 <li className="mb-1">
                                     <Link
                                         className="block p-4 text-sm font-semibold text-gray-200 hover:bg-gray-50 hover:text-primary rounded"
-                                        to="dashboard"
+                                        href="dashboard"
                                     >
                                         Dashboard
                                     </Link>
@@ -340,20 +379,40 @@ function Navbar() {
                             </ul>
                         </div>
                         <div className="mt-auto">
-                            <div className="pt-6">
-                                <a
-                                    className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold text-gray-900 bg-gray-100 hover:bg-gray-50 rounded-xl"
-                                    href="#"
-                                >
-                                    Sign in
-                                </a>
-                                <a
-                                    className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-primary hover:bg-blue-700  rounded-xl"
-                                    href="#"
-                                >
-                                    Sign Up
-                                </a>
-                            </div>
+                            <SignedIn>
+                                <div className="pt-6">
+                                    {/* <div
+                                        className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold text-gray-900 bg-gray-100 hover:bg-gray-50 rounded-xl"
+                                    >
+                                        <SignInButton />
+                                    </div> */}
+                                    <SignOutButton>
+                                        <div
+                                            className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-primary hover:bg-blue-700  rounded-xl"
+                                        >
+                                            Sign Out
+                                        </div>
+                                    </SignOutButton>
+                                </div>
+                            </SignedIn>
+                            <SignedOut>
+                                <div className="pt-6">
+                                    <SignInButton>
+                                        <div
+                                            className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold text-gray-900 bg-gray-100 hover:bg-gray-50 rounded-xl"
+                                        >
+                                            Sign In
+                                        </div>
+                                    </SignInButton>
+                                    <SignUpButton>
+                                        <div
+                                            className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-primary hover:bg-blue-700  rounded-xl"
+                                        >
+                                            Sign Up
+                                        </div>
+                                    </SignUpButton>
+                                </div>
+                            </SignedOut>
                             <p className="my-4 text-xs text-center text-gray-400">
                                 <span>Copyright © 2024</span>
                             </p>

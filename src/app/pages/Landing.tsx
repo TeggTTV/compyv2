@@ -7,7 +7,6 @@ function Landing() {
 
 	return (
 		<>
-			<Navbar />
 			<Hero theme={theme} />
 			<Pricing />
 		</>
