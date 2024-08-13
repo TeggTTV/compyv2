@@ -254,7 +254,7 @@ function Navbar() {
                                                                 {userNotis.find(
                                                                     (e) => {
                                                                         return (
-                                                                            e.id ===
+                                                                            e ===
                                                                             option.name
                                                                         );
                                                                     }
