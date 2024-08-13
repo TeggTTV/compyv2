@@ -62,7 +62,7 @@ export async function POST(req: Request) {
 
     if (evt.type === "user.created") {
         console.log("userId:", evt.data.id);
-    
+     
         // create user with prisma
         const newUser = await prisma.user.create({
             data: {
