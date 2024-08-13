@@ -59,5 +59,5 @@ export async function POST(req: Request) {
         console.log("userId:", evt.data.id);
     }
 
-    return new Response("", { status: 200 });
+    return new Response("funny responseeeee", { status: 200 });
 }
