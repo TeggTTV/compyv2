@@ -62,7 +62,7 @@ export async function POST(req: Request) {
 
     if (evt.type === "user.created") {
         console.log("userId:", evt.data.id);
-     
+
         // create user with prisma
         const newUser = await prisma.user.create({
             data: {
@@ -74,10 +74,11 @@ export async function POST(req: Request) {
 
         console.log("newUser:", newUser);
 
-        return NextResponse.json({message: "New user creatred successfully.", newUser});
+        return NextResponse.json({
+            message: "New user creatred successfully.",
+            newUser,
+        });
     }
-
-
 
     return new Response("funny responseeeee", { status: 200 });
 }
