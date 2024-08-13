@@ -2,6 +2,9 @@ import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
 
+import { PrismaClient } from "@prisma/client";
+import { NextResponse } from "next/server";
+
 export async function POST(req: Request) {
     // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
     const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
@@ -55,9 +58,26 @@ export async function POST(req: Request) {
     console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
     console.log("Webhook body:", body);
 
+    const prisma = new PrismaClient();
+
     if (evt.type === "user.created") {
         console.log("userId:", evt.data.id);
+    
+        // create user with prisma
+        const newUser = await prisma.user.create({
+            data: {
+                id: evt.data.id,
+                email: evt.data.email_addresses[0].email_address,
+                name: evt.data.username,
+            },
+        });
+
+        console.log("newUser:", newUser);
+
+        return NextResponse.json({message: "New user creatred successfully.", newUser});
     }
+
+
 
     return new Response("funny responseeeee", { status: 200 });
 }
