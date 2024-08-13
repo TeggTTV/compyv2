@@ -5,38 +5,37 @@ import { Bell, User } from "lucide-react";
 import { Avatar, Badge } from "@nextui-org/react";
 import { useState } from "react";
 
-import {
-    SignedIn,
-    SignedOut,
-    SignUpButton,
-    SignInButton,
-    SignOutButton,
-    useClerk
-} from "@clerk/clerk-react";
 import Link from "next/link";
 
 function Navbar() {
-    const { openUserProfile } = useClerk();
     const [notis, setNotis] = useState([
         {
-            title: "Welcome! 🎉",
-            desc: "Make sure to create an accout if you don't have one already. You will be able to track your progress and save your favorite games.",
+            title: null,
+            desc: null,
             seen: false,
             onclick: () => {
-                // toast('Welcome! 🎉');
             },
-        },
-        {
-            title: "You're doing great! 🚀",
-            desc: "Keep up the good work and keep playing!",
-            seen: false,
-            onclick: () => {
-                // toast("You're doing great! 🚀");
-            },
-        },
+        }
+        // {
+        //     title: "Welcome! 🎉",
+        //     desc: "Make sure to create an accout if you don't have one already. You will be able to track your progress and save your favorite games.",
+        //     seen: false,
+        //     onclick: () => {
+        //         // toast('Welcome! 🎉');
+        //     },
+        // },
+        // {
+        //     title: "You're doing great! 🚀",
+        //     desc: "Keep up the good work and keep playing!",
+        //     seen: false,
+        //     onclick: () => {
+        //         // toast("You're doing great! 🚀");
+        //     },
+        // },
     ]);
 
     const [userNotis] = useState([
+
     ]);
 
     const options = [{
@@ -44,7 +43,17 @@ function Navbar() {
             openUserProfile();
         },
         signedIn: true
+    }, {
+        name: "My Games", onClick: () => {
+            // addNoti("My Games",
+            //     "You have 3 new games to play.");
+        }
+        , signedIn: true
     }];
+
+    function openUserProfile() {
+
+    }
 
     // function addNoti(title: string, desc: string) {
     //     setNotis([...notis, { title, desc }]);
@@ -91,6 +100,9 @@ function Navbar() {
             setUserOpen(false);
         }
     }
+
+    const [signedIn, setSignedIn] = useState(false);
+
 
     return (
         <header className="w-full">
@@ -158,7 +170,9 @@ function Navbar() {
 									divide-y divide-gray-100 rounded-2xl shadow-lg ring-1 ring-black ring-opacity-5 
 									focus:outline-none"
                                 >
-                                    {notis.map((noti, index) => (
+
+                                    {notis[0].title === null ? '' : notis.map((noti, index) => (
+
                                         <div key={index} className="px-1 py-1">
                                             <div
                                                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -196,7 +210,7 @@ function Navbar() {
                                     ))}
                                     <div className="px-1 py-1 ">
                                         <div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                            View all
+                                            {notis[0].title === null ? (<div>Sign in to see your notifcations.</div>) : ('View All')}
                                         </div>
                                     </div>
                                 </div>
@@ -233,24 +247,25 @@ function Navbar() {
                                                     Account
                                                 </div>
                                                 <div className="text-lg font-light flex items-center">
-                                                    <SignedIn>
-                                                        <Avatar
-                                                        // src="https://i.pravatar.cc/150?u=a04258114e29026702d"
-                                                        />
-                                                    </SignedIn>
-                                                    <SignedOut>
+
+                                                    {signedIn ? (
                                                         <Avatar
                                                         // src="https://i.pravatar.cc/150?u=a04258114e29026702d"
                                                         />
 
-                                                    </SignedOut>
+                                                    ) : (
+
+                                                        <Avatar
+                                                        // src="https://i.pravatar.cc/150?u=a04258114e29026702d"
+                                                        />
+                                                    )}
                                                 </div>
                                             </div>
                                             {options.map(
                                                 (option, index) => {
                                                     if (!option.signedIn)
                                                         return (
-                                                            <div key={index}>
+                                                            <div key={index} className="text-sm font-light hover:text-primary">
                                                                 {userNotis.find(
                                                                     (e) => {
                                                                         return (
@@ -260,15 +275,14 @@ function Navbar() {
                                                                     }
                                                                 ) ? (
                                                                     <div
-                                                                        className="text-sm font-light hover:bg-gray-300 py-2 px-2 -ml-1 flex
-											items-center justify-between"
+                                                                        className="w-full text-sm font-light py-2 px-2 -ml-1"
                                                                         onClick={option.onClick}
                                                                     >
                                                                         {option.name}
-                                                                        <div className="inline-block bg-primary rounded-full w-3 h-3"></div>
+                                                                        {/* <div className="inline-block bg-primary rounded-full w-3 h-3"></div> */}
                                                                     </div>
                                                                 ) : (
-                                                                    <div className="text-sm font-light hover:bg-gray-300 py-2 px-2 -ml-1" onClick={
+                                                                    <div className="w-full text-sm font-light py-2 px-2 -ml-1" onClick={
                                                                         option.onClick
                                                                     }>
                                                                         {option.name}
@@ -279,14 +293,23 @@ function Navbar() {
                                                 }
                                             )}
 
-                                            <div className="text-sm font-light hover:bg-gray-300 py-2 px-2 -ml-1">
-                                                <SignedOut>
-                                                    <SignInButton />
-                                                </SignedOut>
-                                                <SignedIn>
-                                                    <SignOutButton />
-                                                </SignedIn>
-                                            </div>
+                                            <Link
+                                                href={signedIn ? "/signout" : "/signin"}
+                                                className="text-sm font-light hover:text-primary asdsada">
+                                                {signedIn ? (
+                                                    <div
+                                                        className="w-full text-sm font-light py-2 px-2 -ml-1 "
+                                                    >
+                                                        Sign Out
+                                                    </div>
+                                                ) : (
+                                                    <div
+                                                        className="w-full text-sm font-light py-2 px-2 -ml-1"
+                                                    >
+                                                        Sign In
+                                                    </div>
+                                                )}
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
@@ -379,40 +402,35 @@ function Navbar() {
                             </ul>
                         </div>
                         <div className="mt-auto">
-                            <SignedIn>
+                            {signedIn ? (
                                 <div className="pt-6">
-                                    {/* <div
-                                        className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold text-gray-900 bg-gray-100 hover:bg-gray-50 rounded-xl"
+                                    <Link
+                                        className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold text-primary bg-gray-100 hover:bg-gray-200 rounded-xl"
+                                        // className="block p-4 text-sm font-semibold text-primary rounded"
+                                        href="/signout"
                                     >
-                                        <SignInButton />
-                                    </div> */}
-                                    <SignOutButton>
-                                        <div
-                                            className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-primary hover:bg-blue-700  rounded-xl"
-                                        >
-                                            Sign Out
-                                        </div>
-                                    </SignOutButton>
+                                        Sign Out
+                                    </Link>
                                 </div>
-                            </SignedIn>
-                            <SignedOut>
+                            ) : (
                                 <div className="pt-6">
-                                    <SignInButton>
-                                        <div
-                                            className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold text-gray-900 bg-gray-100 hover:bg-gray-50 rounded-xl"
-                                        >
-                                            Sign In
-                                        </div>
-                                    </SignInButton>
-                                    <SignUpButton>
-                                        <div
-                                            className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-primary hover:bg-blue-700  rounded-xl"
-                                        >
-                                            Sign Up
-                                        </div>
-                                    </SignUpButton>
+                                    <Link
+
+                                        className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold text-gray-900 bg-gray-100 hover:bg-gray-200 rounded-xl"
+                                        // className="block p-4 text-sm font-semibold text-primary rounded"
+                                        href="/signin"
+                                    >
+                                        Sign In
+                                    </Link>
+                                    <Link
+                                        className="block px-4 py-3 mb-2 leading-loose text-xs text-center font-semibold text-white bg-primary hover:bg-blue-600  rounded-xl"
+                                        // className="block p-4 text-sm font-semibold text-gray-200 rounded"
+                                        href="/signup"
+                                    >
+                                        Sign Up
+                                    </Link>
                                 </div>
-                            </SignedOut>
+                            )}
                             <p className="my-4 text-xs text-center text-gray-400">
                                 <span>Copyright © 2024</span>
                             </p>

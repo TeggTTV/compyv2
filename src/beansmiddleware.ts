@@ -1,10 +1,12 @@
-import { authMiddleware } from "@clerk/nextjs/server";
+// import { authMiddleware } from "@clerk/nextjs/server";
 
-export default authMiddleware({
-    publicRoutes: ["/", "/api/webhooks/clerk"],
-    secretKey: process.env.CLERK_API_SECRET,
-    // encryptionkey: process.env.CLERK_ENCRYPTION_KEY,
-});
+// export default authMiddleware({
+//     publicRoutes: ["/", "/api/webhooks/clerk"],
+//     secretKey: process.env.CLERK_API_SECRET,
+//     // encryptionkey: process.env.CLERK_ENCRYPTION_KEY,
+// });
+
+
 
 export const config = {
     matcher: [
