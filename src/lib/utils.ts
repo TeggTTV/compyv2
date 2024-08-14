@@ -46,3 +46,18 @@ const prisma = new PrismaClient();
 export function wait(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+export const isLocal = process.env.NEXT_PUBLIC_VERCEL_ENV === "local";
+export const domain = isLocal ? "localhost:3000" : "compy-app.vercel.app";
+export const protocol = isLocal ? "http://" : "https://";
+
+export type UiRoutes = "/admin" | "/dashboard" | "/login" | "/register";
+export type ApiRoute = "/api/register" | "/api/login";
+
+export const getFullUrl = (
+    route: UiRoutes | ApiRoute,
+    query?: string
+): string => `${protocol}${domain}${route}${query ? `?${query}` : ""}`;
+
+// Useage:
+const url = getFullUrl("/admin", "name=john");

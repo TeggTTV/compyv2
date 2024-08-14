@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from 'next/navigation'
 import { FormEvent } from "react";
 import { Bounce, toast } from "react-toastify";
-import { wait } from "../../lib/utils";
+import { getFullUrl, wait } from "../../lib/utils";
 
 function Login() {
     const router = useRouter();
@@ -17,7 +17,7 @@ function Login() {
             username: formData.get('usernameEmail'),
             password: formData.get('password')
         }
-        const response = await fetch('/api/login', {
+        const response = await fetch(getFullUrl("/api/login"), {
             method: 'POST',
             body: JSON.stringify(newData),
         }).then((response) => {

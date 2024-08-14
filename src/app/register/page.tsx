@@ -3,7 +3,7 @@ import Link from "next/link";
 import { redirect, useRouter } from 'next/navigation'
 import { FormEvent, useState } from "react";
 import { Bounce, toast } from "react-toastify";
-import { wait } from "../../lib/utils";
+import { getFullUrl, wait } from "../../lib/utils";
 
 function Register() {
     const [usernameExists, setUsernameExists] = useState(false);
@@ -22,7 +22,7 @@ function Register() {
             password: formData.get('password')?.toString()
         }
 
-        const response = await fetch('/api/register', {
+        const response = await fetch(getFullUrl("/api/register"), {
             method: 'POST',
             body: JSON.stringify(newData),
         })

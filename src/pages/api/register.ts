@@ -1,5 +1,3 @@
-// pages/api/hello.ts
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 import crypto from "crypto";
