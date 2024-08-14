@@ -17,8 +17,6 @@ function Login() {
             username: formData.get('usernameEmail'),
             password: formData.get('password')
         }
-        console.log(getFullUrl("/api/login"));
-        
         const response = await fetch(getFullUrl("/api/login"), {
             method: 'POST',
             body: JSON.stringify(newData),
