@@ -294,7 +294,7 @@ function Navbar() {
                                             )}
 
                                             <Link
-                                                href={signedIn ? "/signout" : "/signin"}
+                                                href={signedIn ? "/logout" : "/login"}
                                                 className="text-sm font-light hover:text-primary asdsada">
                                                 {signedIn ? (
                                                     <div
@@ -407,7 +407,7 @@ function Navbar() {
                                     <Link
                                         className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold text-primary bg-gray-100 hover:bg-gray-200 rounded-xl"
                                         // className="block p-4 text-sm font-semibold text-primary rounded"
-                                        href="/signout"
+                                        href="/logout"
                                     >
                                         Sign Out
                                     </Link>
@@ -418,7 +418,7 @@ function Navbar() {
 
                                         className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold text-gray-900 bg-gray-100 hover:bg-gray-200 rounded-xl"
                                         // className="block p-4 text-sm font-semibold text-primary rounded"
-                                        href="/signin"
+                                        href="/login"
                                     >
                                         Sign In
                                     </Link>

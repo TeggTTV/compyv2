@@ -1,8 +1,12 @@
 "use client";
 import Link from "next/link";
+import { useRouter } from 'next/navigation'
 import { FormEvent } from "react";
+import { Bounce, toast } from "react-toastify";
+import { wait } from "../../lib/utils";
 
-function SignIn() {
+function Login() {
+    const router = useRouter();
 
     async function onFormSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
@@ -16,10 +20,55 @@ function SignIn() {
         const response = await fetch('/api/login', {
             method: 'POST',
             body: JSON.stringify(newData),
-        })
+        }).then((response) => {
+            response.json().then((data) => {
+                if (data.message === "Invalid login credentials") {
+                    toast.error('Invalid login credentials. Please try again.', {
+                        position: "top-center",
+                        autoClose: 1500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                        transition: Bounce,
+                    });
+                } else if (data.message === "You have successfully logged in") {
+                    toast.success('You have successfully logged in', {
+                        position: "top-center",
+                        autoClose: 1500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                        transition: Bounce,
+                    });
+                    wait(1000).then(() => {
+                        router.push("/dashboard");
+                    });
+                }
 
-        const data = await response.json()
-        console.log(data);
+
+            }).catch((error) => {
+                toast.error('There was an error while logging in. Please try again.', {
+                    position: "top-center",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                });
+                console.error("There has been a problem with your fetch operation:", error);
+            });
+        }).catch((error) => {
+            console.error("There has been a problem with your fetch operation:", error);
+        });
     }
 
 
@@ -99,4 +148,4 @@ function SignIn() {
     )
 }
 
-export default SignIn;
+export default Login;

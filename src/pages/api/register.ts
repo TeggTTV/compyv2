@@ -9,7 +9,7 @@ type ResponseData = {
     message: string;
 };
 
-export default function POST(
+export default async function POST(
     req: NextApiRequest,
     res: NextApiResponse<ResponseData>
 ) {
@@ -29,7 +29,10 @@ export default function POST(
                         ["create", "update"].includes(operation) &&
                         args.data["password"]
                     ) {
-                        args.data["password"] = encrypt(args.data["password"], process.env.SECRET_KEY as string);
+                        args.data["password"] = encrypt(
+                            args.data["password"],
+                            process.env.SECRET_KEY as string
+                        );
                     }
                     return query(args);
                 },
@@ -43,6 +46,29 @@ export default function POST(
             let data = req.body;
             data = JSON.parse(data);
 
+            // make request to db to see all users
+            const allUsers = await prisma.user.findMany();
+            // check if user exists
+            let userExists = false;
+            allUsers.forEach((user) => {
+                if (
+                    user.email === data.email ||
+                    user.username === data.username
+                ) {
+                    res.status(400).json({
+                        message:
+                            user.email === data.email
+                                ? "User_email_key"
+                                : "User_username_key",
+                    });
+                    userExists = true;
+                }
+            });
+
+            if (userExists) {
+                return;
+            }
+
             const result = prisma.user
                 .create({
                     data: {
@@ -53,7 +79,7 @@ export default function POST(
                 })
                 .then((result) => {
                     res.status(200).json({
-                        message: "Data processed successfully.",
+                        message: "Account created successfully",
                     });
                 })
                 .catch((error) => {
