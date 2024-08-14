@@ -58,6 +58,3 @@ export const getFullUrl = (
     route: UiRoutes | ApiRoute,
     query?: string
 ): string => `${protocol}${domain}${route}${query ? `?${query}` : ""}`;
-
-// Useage:
-const url = getFullUrl("/admin", "name=john");

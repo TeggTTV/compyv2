@@ -21,7 +21,7 @@ function Register() {
             email: formData.get('email'),
             password: formData.get('password')?.toString()
         }
-
+        getFullUrl("/api/register")
         const response = await fetch(getFullUrl("/api/register"), {
             method: 'POST',
             body: JSON.stringify(newData),
