@@ -1,3 +1,4 @@
+import { sendMail } from "./../../lib/mailer";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 import crypto from "crypto";
@@ -75,7 +76,13 @@ export default async function POST(
                         email: data.email,
                     },
                 })
-                .then((result) => {
+                .then(async (result) => {
+                    // await sendMail({
+                    //     id: result.id,
+                    //     email: data.email,
+                    //     emailType: "VERIFY",
+                    // });
+
                     res.status(200).json({
                         message: "Account created successfully",
                     });

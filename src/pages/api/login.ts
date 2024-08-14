@@ -17,7 +17,6 @@ export default async function handler(
 
     try {
         const allUsers = await prisma.user.findMany();
-        console.log(req.body);
 
         allUsers.forEach((user) => {
             if (
@@ -54,6 +53,9 @@ export default async function handler(
             res.status(200).json({
                 message: "You have successfully logged in",
             });
+            
+            await prisma.$disconnect();
+
         }
     }
 }

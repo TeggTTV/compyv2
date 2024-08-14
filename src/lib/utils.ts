@@ -52,7 +52,7 @@ export const domain = isLocal ? "localhost:3000" : "compy-app.vercel.app";
 export const protocol = isLocal ? "http://" : "https://";
 
 export type UiRoutes = "/admin" | "/dashboard" | "/login" | "/register";
-export type ApiRoute = "/api/register" | "/api/login";
+export type ApiRoute = "/api/register" | "/api/login" | "/api/verifyemail";
 
 export const getFullUrl = (
     route: UiRoutes | ApiRoute,

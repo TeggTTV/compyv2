@@ -300,13 +300,13 @@ function Navbar() {
                                                     <div
                                                         className="w-full text-sm font-light py-2 px-2 -ml-1 "
                                                     >
-                                                        Sign Out
+                                                        Logout
                                                     </div>
                                                 ) : (
                                                     <div
                                                         className="w-full text-sm font-light py-2 px-2 -ml-1"
                                                     >
-                                                        Sign In
+                                                        Login
                                                     </div>
                                                 )}
                                             </Link>
@@ -409,7 +409,7 @@ function Navbar() {
                                         // className="block p-4 text-sm font-semibold text-primary rounded"
                                         href="/logout"
                                     >
-                                        Sign Out
+                                        Logout
                                     </Link>
                                 </div>
                             ) : (
@@ -420,14 +420,14 @@ function Navbar() {
                                         // className="block p-4 text-sm font-semibold text-primary rounded"
                                         href="/login"
                                     >
-                                        Sign In
+                                        Login
                                     </Link>
                                     <Link onClick={() => { setNotiOpen(false); setUserOpen(false); setMobileMenuOpen(false); }}
                                         className="block px-4 py-3 mb-2 leading-loose text-xs text-center font-semibold text-white bg-primary hover:bg-blue-600  rounded-xl"
                                         // className="block p-4 text-sm font-semibold text-gray-200 rounded"
-                                        href="/signup"
+                                        href="/register"
                                     >
-                                        Sign Up
+                                        Register
                                     </Link>
                                 </div>
                             )}

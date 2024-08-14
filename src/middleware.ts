@@ -1,12 +1,6 @@
-// import { authMiddleware } from "@clerk/nextjs/server";
 
-// export default authMiddleware({
-//     publicRoutes: ["/", "/api/webhooks/clerk"],
-//     secretKey: process.env.CLERK_API_SECRET,
-//     // encryptionkey: process.env.CLERK_ENCRYPTION_KEY,
-// });
-
-
+export default function middleware(req: any, res: any, next: any) {
+}
 
 export const config = {
     matcher: [

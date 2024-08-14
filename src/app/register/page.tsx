@@ -65,7 +65,7 @@ function Register() {
                 break;
 
             case "Account created successfully":
-                toast.success('Account created successfully', {
+                toast.success('Account created successfully.', {
                     position: "top-center",
                     autoClose: 1000,
                     hideProgressBar: false,
@@ -195,7 +195,7 @@ function Register() {
                     <p className="mt-10 text-center text-sm text-gray-500">
                         Already have an account?{' '}
                         <Link href="login" className="font-semibold leading-6 text-primary hover:text-blue-600">
-                            Sign In
+                            Login
                         </Link>
                     </p>
                 </div>
