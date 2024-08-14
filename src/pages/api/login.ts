@@ -17,31 +17,21 @@ export default async function handler(
 
     try {
         const allUsers = await prisma.user.findMany();
+        console.log(req.body);
 
         allUsers.forEach((user) => {
-            console.log(
-                user,
-                decrypt(user.password, process.env.SECRET_KEY as string).toString(),
-                req.body.password.toString()
-            );
-
             if (
-                user.email === req.body.email ||
-                user.username === req.body.username
+                req.body.username === user.username ||
+                req.body.username === user.email
             ) {
-                console.log("User found");
-
                 if (
-                    decrypt(user.password, process.env.SECRET_KEY as string).toString() ===
-                    req.body.password.toString()
+                    decrypt(
+                        user.password,
+                        process.env.SECRET_KEY as string
+                    ).toString() === req.body.password.toString()
                 ) {
                     userData = user;
                     loggedIn = true;
-                    console.log("User logged in");
-                    res.status(200).json({
-                        message: "You have successfully logged in",
-                    });
-                    
                 }
             }
         });
@@ -61,7 +51,9 @@ export default async function handler(
                 message: "Couldn't find a user with those credentials.",
             });
         } else {
-            
+            res.status(200).json({
+                message: "You have successfully logged in",
+            });
         }
     }
 }

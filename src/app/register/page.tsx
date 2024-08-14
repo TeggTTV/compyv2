@@ -5,10 +5,36 @@ import { FormEvent, useState } from "react";
 import { Bounce, toast } from "react-toastify";
 import { getFullUrl, wait } from "../../lib/utils";
 
+import formData from 'form-data';
+import Mailgun from 'mailgun.js';
+
 function Register() {
     const [usernameExists, setUsernameExists] = useState(false);
     const [emailExists, setEmailExists] = useState(false);
     const router = useRouter()
+
+    const DOMAIN = "sandbox76e15549ad94426a99dcaf11c896f8f0.mailgun.org";
+
+    const mailgun = new Mailgun(formData);
+    const mg = mailgun.client({
+        key: process.env.MAILGUN_API_KEY as string,
+        username: "api",
+    });
+
+    const messageData = {
+        from: `Excited User <mailgun@${DOMAIN}>`,
+        to: ["josephjaws760@gmail.com"],
+        subject: "Hello",
+        text: "Testing some Mailgun awesomeness!",
+        html: "<h1>Testing some Mailgun awesomeness!</h1>"
+    }
+
+    mg.messages.create(DOMAIN, messageData).then((msg) => {
+        console.log(msg);
+    }).catch((err) => {
+        console.log(err);
+    });
+    
 
     async function onFormSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
