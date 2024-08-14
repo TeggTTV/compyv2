@@ -17,11 +17,16 @@ export default async function handler(
 
     try {
         const allUsers = await prisma.user.findMany();
+        
         allUsers.forEach((user) => {
+            console.log(user);
+            
             if (
                 user.email === req.body.email ||
                 user.username === req.body.username
             ) {
+                console.log("User found");
+                
                 if (
                     decrypt(user.password, process.env.SECRET_KEY as string) ===
                     req.body.password
@@ -42,10 +47,14 @@ export default async function handler(
             `loggedInData=${JSON.stringify(userData)};`,
         ]);
 
-        res.status(200).json({
-            message: loggedIn
-                ? "You have successfully logged in"
-                : "Invalid login credentials",
-        });
+        if (!loggedIn) {
+            res.status(400).json({
+                message: "Couldn't find a user with those credentials.",
+            });
+        } else {
+            res.status(200).json({
+                message: "You have successfully logged in",
+            });
+        }
     }
 }
