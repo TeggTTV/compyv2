@@ -109,7 +109,7 @@ function Navbar() {
             <nav className="h-20 z-20 w-full flex items-center justify-center px-10 py-4 bg-gray-900">
                 <div className="max-w-7xl w-full h-full flex justify-between dark:bg-gray-900">
                     <div className="flex justify-between gap-20">
-                        <Link
+                        <Link onClick={() => { setNotiOpen(false); setUserOpen(false); setMobileMenuOpen(false); }}
                             href={"/"}
                             className="self-center font-medium dark:text-gray-100"
                         >
@@ -117,7 +117,7 @@ function Navbar() {
                         </Link>
 
                         <div className="self-center hidden md:inline-block">
-                            <Link
+                            <Link onClick={() => { setNotiOpen(false); setUserOpen(false); setMobileMenuOpen(false); }}
                                 href="/dashboard"
                                 className="text-gray-900 px-3 rounded-2xl text-sm font-medium dark:text-gray-100"
                                 aria-current="page"
@@ -293,7 +293,7 @@ function Navbar() {
                                                 }
                                             )}
 
-                                            <Link
+                                            <Link onClick={() => { setNotiOpen(false); setUserOpen(false); setMobileMenuOpen(false); }}
                                                 href={signedIn ? "/logout" : "/login"}
                                                 className="text-sm font-light hover:text-primary asdsada">
                                                 {signedIn ? (
@@ -342,7 +342,7 @@ function Navbar() {
                     }></div>
                     <nav className="fixed top-0 left-0 bottom-0 flex flex-col w-60 max-w-sm py-6 px-6 bg-gray-900 border-r overflow-y-auto">
                         <div className="flex items-center mb-8">
-                            <Link
+                            <Link onClick={() => { setNotiOpen(false); setUserOpen(false); setMobileMenuOpen(false); }}
                                 className="mr-auto text-3xl font-bold leading-none text-gray-100"
                                 href="/"
                             >
@@ -368,7 +368,7 @@ function Navbar() {
                         <div>
                             <ul>
                                 <li className="mb-1">
-                                    <Link
+                                    <Link onClick={() => { setNotiOpen(false); setUserOpen(false); setMobileMenuOpen(false); }}
                                         className="block p-4 text-sm font-semibold text-gray-200 hover:bg-gray-50 hover:text-primary rounded"
                                         href="/"
                                     >
@@ -376,7 +376,7 @@ function Navbar() {
                                     </Link>
                                 </li>
                                 <li className="mb-1">
-                                    <Link
+                                    <Link onClick={() => { setNotiOpen(false); setUserOpen(false); setMobileMenuOpen(false); }}
                                         className="block p-4 text-sm font-semibold text-gray-200 hover:bg-gray-50 hover:text-primary rounded"
                                         href="dashboard"
                                     >
@@ -404,7 +404,7 @@ function Navbar() {
                         <div className="mt-auto">
                             {signedIn ? (
                                 <div className="pt-6">
-                                    <Link
+                                    <Link onClick={() => { setNotiOpen(false); setUserOpen(false); setMobileMenuOpen(false); }}
                                         className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold text-primary bg-gray-100 hover:bg-gray-200 rounded-xl"
                                         // className="block p-4 text-sm font-semibold text-primary rounded"
                                         href="/logout"
@@ -414,7 +414,7 @@ function Navbar() {
                                 </div>
                             ) : (
                                 <div className="pt-6">
-                                    <Link
+                                    <Link onClick={() => { setNotiOpen(false); setUserOpen(false); setMobileMenuOpen(false); }}
 
                                         className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold text-gray-900 bg-gray-100 hover:bg-gray-200 rounded-xl"
                                         // className="block p-4 text-sm font-semibold text-primary rounded"
@@ -422,7 +422,7 @@ function Navbar() {
                                     >
                                         Sign In
                                     </Link>
-                                    <Link
+                                    <Link onClick={() => { setNotiOpen(false); setUserOpen(false); setMobileMenuOpen(false); }}
                                         className="block px-4 py-3 mb-2 leading-loose text-xs text-center font-semibold text-white bg-primary hover:bg-blue-600  rounded-xl"
                                         // className="block p-4 text-sm font-semibold text-gray-200 rounded"
                                         href="/signup"

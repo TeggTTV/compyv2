@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
-import { decrypt, encrypt } from "../../lib/Secret";
-import { redirect } from "next/navigation";
+import { decrypt } from "../../lib/Secret";
 
 type ResponseData = {
     message: string;
