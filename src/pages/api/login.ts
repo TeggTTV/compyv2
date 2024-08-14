@@ -17,16 +17,20 @@ export default async function handler(
 
     try {
         const allUsers = await prisma.user.findMany();
-        
+
         allUsers.forEach((user) => {
-            console.log(user);
-            
+            console.log(
+                user,
+                decrypt(user.password, process.env.SECRET_KEY as string),
+                req.body
+            );
+
             if (
                 user.email === req.body.email ||
                 user.username === req.body.username
             ) {
                 console.log("User found");
-                
+
                 if (
                     decrypt(user.password, process.env.SECRET_KEY as string) ===
                     req.body.password
