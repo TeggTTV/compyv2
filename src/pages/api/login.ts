@@ -37,6 +37,11 @@ export default async function handler(
                 ) {
                     userData = user;
                     loggedIn = true;
+                    console.log("User logged in");
+                    res.status(200).json({
+                        message: "You have successfully logged in",
+                    });
+                    
                 }
             }
         });
@@ -56,9 +61,7 @@ export default async function handler(
                 message: "Couldn't find a user with those credentials.",
             });
         } else {
-            res.status(200).json({
-                message: "You have successfully logged in",
-            });
+            
         }
     }
 }
