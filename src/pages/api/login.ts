@@ -21,8 +21,8 @@ export default async function handler(
         allUsers.forEach((user) => {
             console.log(
                 user,
-                decrypt(user.password, process.env.SECRET_KEY as string),
-                req.body
+                decrypt(user.password, process.env.SECRET_KEY as string).toString(),
+                req.body.password.toString()
             );
 
             if (
@@ -32,8 +32,8 @@ export default async function handler(
                 console.log("User found");
 
                 if (
-                    decrypt(user.password, process.env.SECRET_KEY as string) ===
-                    req.body.password
+                    decrypt(user.password, process.env.SECRET_KEY as string).toString() ===
+                    req.body.password.toString()
                 ) {
                     userData = user;
                     loggedIn = true;
