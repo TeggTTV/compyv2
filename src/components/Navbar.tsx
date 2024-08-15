@@ -22,17 +22,17 @@ function Navbar() {
         if (isLoggedIn()) {
             // check if notis have been refreshed in the last 10 seconds
             if (Date.now() - lastNotisRefreshed < 10000) {
-                toast.warning('Notifications have been refreshed recently. Please wait a few seconds before refreshing again.', {
-                    position: "top-center",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                    transition: Bounce,
-                });
+                // toast.warning('Notifications have been refreshed recently. Please wait a few seconds before refreshing again.', {
+                //     position: "top-center",
+                //     autoClose: 1500,
+                //     hideProgressBar: false,
+                //     closeOnClick: true,
+                //     pauseOnHover: true,
+                //     draggable: true,
+                //     progress: undefined,
+                //     theme: "dark",
+                //     transition: Bounce,
+                // });
                 return;
             }
             const notisGet = await fetch(getFullUrl("/api/getUserData"), {
