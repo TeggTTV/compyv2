@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { FormEvent } from "react";
 import { Bounce, toast } from "react-toastify";
 import { getFullUrl, wait } from "../../lib/utils";
+import { getCookie, setCookie } from "cookies-next";
 
 function Login() {
     const router = useRouter();
@@ -11,18 +12,49 @@ function Login() {
     async function onFormSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
 
+        // check if cookies are set
+        if (getCookie("sessionToken") && getCookie("sessionTokenExpiry")) {
+            toast.error('You are already logged in', {
+                position: "top-center",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
+
+            await wait(1500);
+
+            router.push("/");
+
+            return;
+        }
+
         let formData = new FormData(event.currentTarget);
 
         let newData = {
             username: formData.get('usernameEmail'),
             password: formData.get('password')
         }
-        const response = await fetch(getFullUrl("/api/login"), {
+        await fetch(getFullUrl("/api/login"), {
             method: 'POST',
             body: JSON.stringify(newData),
         }).then((response) => {
+            let cookies = response.headers.get('cookie');
+            cookies?.split(";").forEach((cookie) => {
+                let key = cookie.split("=")[0];
+                let value = cookie.split("=")[1];
+                if (key === '' || value === '') return;
+
+                setCookie(key, value, { secure: true })
+            });
+
             response.json().then((data) => {
-                if (data.message === "Invalid login credentials") {
+                console.log(data);
+                if (data.message === "400") {
                     toast.error('Invalid login credentials. Please try again.', {
                         position: "top-center",
                         autoClose: 1500,
@@ -34,7 +66,7 @@ function Login() {
                         theme: "dark",
                         transition: Bounce,
                     });
-                } else if (data.message === "You have successfully logged in") {
+                } else if (data.message === "200") {
                     toast.success('You have successfully logged in', {
                         position: "top-center",
                         autoClose: 1500,
@@ -47,7 +79,19 @@ function Login() {
                         transition: Bounce,
                     });
                     wait(1000).then(() => {
-                        router.push("/dashboard");
+                        router.push("/");
+                    });
+                } else if (data.message === "500") {
+                    toast.error('There was an error while logging in. Please try again.', {
+                        position: "top-center",
+                        autoClose: 1500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                        transition: Bounce,
                     });
                 }
 

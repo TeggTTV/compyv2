@@ -3,40 +3,66 @@
 import { Bell, User } from "lucide-react";
 
 import { Avatar, Badge } from "@nextui-org/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Link from "next/link";
+import { getFullUrl, isLoggedIn } from "../lib/utils";
+import { getCookie } from "cookies-next";
+import { Bounce, toast } from "react-toastify";
 
 function Navbar() {
-    const [notis, setNotis] = useState([
-        {
-            title: null,
-            desc: null,
-            seen: false,
-            onclick: () => {
-            },
+    const [notis, setNotis] = useState<{ title: string; description: string; seen: boolean; onclick: () => void; }[]>([]);
+    const [userNotis] = useState([]);
+    const [notiOpen, setNotiOpen] = useState(false);
+    const [userOpen, setUserOpen] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [lastNotisRefreshed, setLastNotisRefreshed] = useState(Date.now());
+
+    async function getNotis() {
+        if (isLoggedIn()) {
+            // check if notis have been refreshed in the last 10 seconds
+            if (Date.now() - lastNotisRefreshed < 10000) {
+                toast.warning('Notifications have been refreshed recently. Please wait a few seconds before refreshing again.', {
+                    position: "top-center",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                });
+                return;
+            }
+            const notisGet = await fetch(getFullUrl("/api/getUserData"), {
+                method: 'POST',
+                body: JSON.stringify(
+                    {
+                        sessionToken: getCookie("sessionToken"),
+                    }
+                ),
+            })
+
+            const data = await notisGet.json();
+            const notifications = data.notifications as { title: string; description: string; seen: boolean; onclick: () => void; }[];
+
+            setNotis(notifications);
+
+            setLastNotisRefreshed(Date.now());
+        } else {
+            setNotis([basicNoti]);
         }
-        // {
-        //     title: "Welcome! 🎉",
-        //     desc: "Make sure to create an accout if you don't have one already. You will be able to track your progress and save your favorite games.",
-        //     seen: false,
-        //     onclick: () => {
-        //         // toast('Welcome! 🎉');
-        //     },
-        // },
-        // {
-        //     title: "You're doing great! 🚀",
-        //     desc: "Keep up the good work and keep playing!",
-        //     seen: false,
-        //     onclick: () => {
-        //         // toast("You're doing great! 🚀");
-        //     },
-        // },
-    ]);
+    }
 
-    const [userNotis] = useState([
-
-    ]);
+    let basicNoti = {
+        title: "Welcome! 🎉",
+        description: "Make sure to create an accout if you don't have one already. You will be able to track your progress and save your favorite games.",
+        seen: false,
+        onclick: () => {
+            // toast('Welcome! 🎉');
+        },
+    };
 
     const options = [{
         name: "Account Settings", onClick: () => {
@@ -59,16 +85,18 @@ function Navbar() {
     //     setNotis([...notis, { title, desc }]);
     // }
 
-    function getUnseenNotis(notis: { seen: boolean }[]) {
-        return notis.filter((noti) => !noti.seen);
+    function getUnseenNotis(notis: { seen: boolean, title: string | null }[]) {
+        return notis.filter((noti) => (!noti.seen && noti.title !== null));
     }
 
-    const [notiOpen, setNotiOpen] = useState(false);
-    const [userOpen, setUserOpen] = useState(false);
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    // function getNotiCount(notis: { seen: boolean, title: string | null }[]) {
+    //     return getUnseenNotis(notis).length;
+    // }
+
 
     function handleNotiClick() {
         if (!notiOpen) {
+            getNotis();
             setNotiOpen(true);
             setUserOpen(false);
         } else {
@@ -107,7 +135,7 @@ function Navbar() {
     return (
         <header className="w-full">
             <nav className="h-20 z-20 w-full flex items-center justify-center px-10 py-4 bg-gray-900">
-                <div className="max-w-7xl w-full h-full flex justify-between dark:bg-gray-900">
+                <div className="max-w-[100rem] w-full h-full flex justify-between dark:bg-gray-900">
                     <div className="flex justify-between gap-20">
                         <Link onClick={() => { setNotiOpen(false); setUserOpen(false); setMobileMenuOpen(false); }}
                             href={"/"}
@@ -139,6 +167,7 @@ function Navbar() {
                         </div>
                     </div>
                     <div className="flex gap-8 items-center justify-center">
+
                         <div className="cursor-pointer text-gray-500 py-2 rounded-2xl text-sm font-medium dark:text-gray-100 relative">
                             <Badge
                                 content={
@@ -163,60 +192,7 @@ function Navbar() {
                                 />
                             </Badge>
                             {/* notifcation menu that opens on bell click */}
-                            {notiOpen ? (
-                                <div
-                                    id="noti-menu"
-                                    className="w-64 z-20 absolute right-0 mt-2 origin-top-right bg-white 
-									divide-y divide-gray-100 rounded-2xl shadow-lg ring-1 ring-black ring-opacity-5 
-									focus:outline-none"
-                                >
 
-                                    {notis[0].title === null ? '' : notis.map((noti, index) => (
-
-                                        <div key={index} className="px-1 py-1">
-                                            <div
-                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                onClick={() => {
-                                                    noti.onclick();
-                                                }}
-                                                onMouseOver={() => {
-                                                    setNotis(
-                                                        notis.map((e, i) => {
-                                                            if (i === index) {
-                                                                return {
-                                                                    ...e,
-                                                                    seen: true,
-                                                                };
-                                                            }
-                                                            return e;
-                                                        })
-                                                    );
-                                                }}
-                                            >
-                                                <div className="text-lg font-medium flex items-center justify-between">
-                                                    {noti.title}
-
-                                                    {noti.seen ? (
-                                                        ""
-                                                    ) : (
-                                                        <span className="inline-block relative bg-primary rounded-full w-3 h-3"></span>
-                                                    )}
-                                                </div>
-                                                <div className="text-sm font-light">
-                                                    {noti.desc}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                    <div className="px-1 py-1 ">
-                                        <div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                            {notis[0].title === null ? (<div>Sign in to see your notifcations.</div>) : ('View All')}
-                                        </div>
-                                    </div>
-                                </div>
-                            ) : (
-                                ""
-                            )}
                         </div>
                         <div className="cursor-pointer text-gray-500 py-2 rounded-2xl text-sm font-medium dark:text-gray-100 relative">
                             <Badge
@@ -235,85 +211,6 @@ function Navbar() {
                                 <User id="userIcon" onClick={userClick} />
                             </Badge>
                             {/* notifcation menu that opens on bell click */}
-                            {userOpen && (
-                                <div
-                                    id="user-menu"
-                                    className="w-52 z-20 absolute right-0 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-2xl shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                                >
-                                    <div className="px-1 py-1">
-                                        <div className="block px-4 py-2 text-sm text-gray-700">
-                                            <div className="h-14 mb-2 flex items-center justify-between">
-                                                <div className="text-lg font-medium ">
-                                                    Account
-                                                </div>
-                                                <div className="text-lg font-light flex items-center">
-
-                                                    {signedIn ? (
-                                                        <Avatar
-                                                        // src="https://i.pravatar.cc/150?u=a04258114e29026702d"
-                                                        />
-
-                                                    ) : (
-
-                                                        <Avatar
-                                                        // src="https://i.pravatar.cc/150?u=a04258114e29026702d"
-                                                        />
-                                                    )}
-                                                </div>
-                                            </div>
-                                            {options.map(
-                                                (option, index) => {
-                                                    if (!option.signedIn)
-                                                        return (
-                                                            <div key={index} className="text-sm font-light hover:text-primary">
-                                                                {userNotis.find(
-                                                                    (e) => {
-                                                                        return (
-                                                                            e ===
-                                                                            option.name
-                                                                        );
-                                                                    }
-                                                                ) ? (
-                                                                    <div
-                                                                        className="w-full text-sm font-light py-2 px-2 -ml-1"
-                                                                        onClick={option.onClick}
-                                                                    >
-                                                                        {option.name}
-                                                                        {/* <div className="inline-block bg-primary rounded-full w-3 h-3"></div> */}
-                                                                    </div>
-                                                                ) : (
-                                                                    <div className="w-full text-sm font-light py-2 px-2 -ml-1" onClick={
-                                                                        option.onClick
-                                                                    }>
-                                                                        {option.name}
-                                                                    </div>
-                                                                )}
-                                                            </div>
-                                                        );
-                                                }
-                                            )}
-
-                                            <Link onClick={() => { setNotiOpen(false); setUserOpen(false); setMobileMenuOpen(false); }}
-                                                href={signedIn ? "/logout" : "/login"}
-                                                className="text-sm font-light hover:text-primary asdsada">
-                                                {signedIn ? (
-                                                    <div
-                                                        className="w-full text-sm font-light py-2 px-2 -ml-1 "
-                                                    >
-                                                        Logout
-                                                    </div>
-                                                ) : (
-                                                    <div
-                                                        className="w-full text-sm font-light py-2 px-2 -ml-1"
-                                                    >
-                                                        Login
-                                                    </div>
-                                                )}
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
                         </div>
 
                         <div className="md:hidden flex justify-center" onClick={handleMobileMenu}>
@@ -331,6 +228,143 @@ function Navbar() {
                     </div>
                 </div>
             </nav>
+            {notiOpen ? (
+                <div
+                    id="noti-menu"
+                    className="w-64 z-20 absolute origin-top-right bg-white divide-y divide-gray-100 rounded-2xl shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none right-10"
+                >
+
+                    {notis.length === 0 ? '' : notis.map((noti: {
+                        title: string;
+                        description: string;
+                        seen: boolean;
+                        onclick: () => void;
+                    }, index: number) => (
+
+                        <div key={index} className="px-1 py-1">
+                            <div
+                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                onClick={() => {
+                                    noti.onclick();
+                                }}
+                                onMouseOver={() => {
+                                    setNotis(
+                                        notis.map((e, i) => {
+                                            if (i === index) {
+                                                return {
+                                                    ...e as any,
+                                                    seen: true,
+                                                };
+                                            }
+                                            return e;
+                                        }) as any
+                                    );
+                                }}
+                            >
+                                <div className="text-lg font-medium flex items-center justify-between">
+                                    {noti.title}
+
+                                    {noti.seen ? (
+                                        ""
+                                    ) : (
+                                        <span className="inline-block relative bg-primary rounded-full w-3 h-3"></span>
+                                    )}
+                                </div>
+                                <div className="text-sm font-light">
+                                    {noti.description}
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                    <div className="px-1 py-1 ">
+                        <div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            {notis.length === 0 ? (<div>Sign in to see your notifcations.</div>) : ('View All')}
+                        </div>
+                    </div>
+                </div>
+            ) : (
+                ""
+            )}
+            {userOpen && (
+                <div
+                    id="user-menu"
+                    className="w-52 z-20 absolute origin-top-right bg-white divide-y divide-gray-100 rounded-2xl shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none right-10"
+
+                >
+                    <div className="px-1 py-1">
+                        <div className="block px-4 py-2 text-sm text-gray-700">
+                            <div className="h-14 mb-2 flex items-center justify-between">
+                                <div className="text-lg font-medium ">
+                                    Account
+                                </div>
+                                <div className="text-lg font-light flex items-center">
+
+                                    {signedIn ? (
+                                        <Avatar
+                                        // src="https://i.pravatar.cc/150?u=a04258114e29026702d"
+                                        />
+
+                                    ) : (
+
+                                        <Avatar
+                                        // src="https://i.pravatar.cc/150?u=a04258114e29026702d"
+                                        />
+                                    )}
+                                </div>
+                            </div>
+                            {options.map(
+                                (option, index) => {
+                                    if (!option.signedIn)
+                                        return (
+                                            <div key={index} className="text-sm font-light hover:text-primary">
+                                                {userNotis.find(
+                                                    (e) => {
+                                                        return (
+                                                            e ===
+                                                            option.name
+                                                        );
+                                                    }
+                                                ) ? (
+                                                    <div
+                                                        className="w-full text-sm font-light py-2 px-2 -ml-1"
+                                                        onClick={option.onClick}
+                                                    >
+                                                        {option.name}
+                                                        {/* <div className="inline-block bg-primary rounded-full w-3 h-3"></div> */}
+                                                    </div>
+                                                ) : (
+                                                    <div className="w-full text-sm font-light py-2 px-2 -ml-1" onClick={
+                                                        option.onClick
+                                                    }>
+                                                        {option.name}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        );
+                                }
+                            )}
+
+                            <Link onClick={() => { setNotiOpen(false); setUserOpen(false); setMobileMenuOpen(false); }}
+                                href={signedIn ? "/logout" : "/login"}
+                                className="text-sm font-light hover:text-primary asdsada">
+                                {signedIn ? (
+                                    <div
+                                        className="w-full text-sm font-light py-2 px-2 -ml-1 "
+                                    >
+                                        Logout
+                                    </div>
+                                ) : (
+                                    <div
+                                        className="w-full text-sm font-light py-2 px-2 -ml-1"
+                                    >
+                                        Login
+                                    </div>
+                                )}
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            )}
             {mobileMenuOpen ? (
                 <div className="relative z-50">
                     <div className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25" onClick={

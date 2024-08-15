@@ -6,6 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 import { PrismaClient } from "@prisma/client";
+import { getCookie } from "cookies-next";
 const prisma = new PrismaClient();
 
 // export async function postData(e: any) {
@@ -52,9 +53,21 @@ export const domain = isLocal ? "localhost:3000" : "compy-app.vercel.app";
 export const protocol = isLocal ? "http://" : "https://";
 
 export type UiRoutes = "/admin" | "/dashboard" | "/login" | "/register";
-export type ApiRoute = "/api/register" | "/api/login" | "/api/verifyemail";
+export type ApiRoute =
+    | "/api/register"
+    | "/api/login"
+    | "/api/verifyemail"
+    | "/api/getUserData";
 
 export const getFullUrl = (
     route: UiRoutes | ApiRoute,
     query?: string
 ): string => `${protocol}${domain}${route}${query ? `?${query}` : ""}`;
+
+export function isLoggedIn() {
+    if(getCookie("sessionToken") && getCookie("sessionTokenExpiry")) {
+        return true;
+    } else {
+        return false;
+    }
+}

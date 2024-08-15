@@ -74,6 +74,15 @@ export default async function POST(
                         username: data.username,
                         password: data.password,
                         email: data.email,
+                        Notification: {
+                            create: {
+                                title: "Welcome to compy! 🚀",
+                                description:
+                                    "We are so excited to have you here. We are sure you will love it here.",
+                                createdAt: new Date(),
+                                onClick: "",
+                            },
+                        }
                     },
                 })
                 .then(async (result) => {

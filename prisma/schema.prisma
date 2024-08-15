@@ -14,23 +14,36 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(uuid()) @map("_id")
-  username String  @unique
-  email    String  @unique
-  password String  @map("hashed_password")
-
-  forgotPasswordToken String? @map("forgot_password_token")
-  forgotPasswordExpiry DateTime? @map("forgot_password_expiry")
-
-  verifyEmailToken String? @map("verify_email_token")
-  verifyEmailExpiry DateTime? @map("verify_email_expiry")
-
-  isVerified Boolean @default(false) @map("is_verified")
+  id                   String         @id @default(uuid()) @map("_id")
+  username             String         @unique
+  email                String         @unique
+  password             String         @map("hashed_password")
+  forgotPasswordToken  String?        @map("forgot_password_token")
+  forgotPasswordExpiry DateTime?      @map("forgot_password_expiry")
+  verifyEmailToken     String?        @map("verify_email_token")
+  verifyEmailExpiry    DateTime?      @map("verify_email_expiry")
+  isVerified           Boolean        @default(false) @map("is_verified")
+  sessionToken         String?        @map("session_token")
+  sessionTokenExpiry   DateTime?      @map("session_token_expiry")
+  Notification         Notification[]
 }
 
 model Session {
-  id        String  @id @default(uuid()) @map("_id")
-  token     String  @unique
+  id        String   @id @default(uuid()) @map("_id")
+  token     String   @unique
   createdAt DateTime @default(now()) @map("created_at")
   expiresAt DateTime @map("expires_at")
+  userId    String?
+}
+
+model Notification {
+  id          String   @id @default(uuid()) @map("_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @map("updated_at")
+  userId      String   @map("userId")
+  title       String
+  description String
+  read        Boolean  @default(false)
+  onClick     String?  @map("on_click")
+  User        User     @relation(fields: [userId], references: [id])
 }
