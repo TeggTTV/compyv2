@@ -131,6 +131,9 @@ function Navbar() {
 
     const [signedIn, setSignedIn] = useState(false);
 
+    useEffect(() => {
+        setSignedIn(isLoggedIn());
+    }, []);
 
     return (
         <header className="w-full">

@@ -56,8 +56,9 @@ export type UiRoutes = "/admin" | "/dashboard" | "/login" | "/register";
 export type ApiRoute =
     | "/api/register"
     | "/api/login"
+    | "/api/logout"
     | "/api/verifyemail"
-    | "/api/getUserData";
+    | "/api/getUserData"
 
 export const getFullUrl = (
     route: UiRoutes | ApiRoute,
