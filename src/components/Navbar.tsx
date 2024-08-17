@@ -167,7 +167,7 @@ function Navbar() {
         }) as any
     }
 
-    document.addEventListener("click", (e) => {
+    window.document.addEventListener("click", (e) => {
         if (e.target !== document.getElementById("noti-menu") && e.target !== document.getElementById("notificationBell")) {
             setNotiOpen(false);
         }
