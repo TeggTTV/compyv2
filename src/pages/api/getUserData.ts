@@ -25,18 +25,25 @@ export default function GET(
                 .then((session) => {
                     users.forEach(async (user) => {
                         if (user.id === session?.userId) {
-                            const notifications =
-                                await prisma.notification.findMany({
+                            const notifications = await prisma.notification
+                                .findMany({
                                     where: {
                                         userId: user.id,
                                     },
+                                })
+                                .then((notifications) => {
+                                    res.status(200).json({
+                                        message: "Retreived user data",
+                                        user: user,
+                                        notifications: notifications,
+                                    });
+                                    return [user, notifications];
                                 });
-                            res.status(200).json({
-                                message: "Retreived user data",
-                                user: user,
-                                notifications: notifications,
-                            });
                             return [user, notifications];
+                        } else {
+                            res.status(401).json({
+                                message: "Unauthorized",
+                            });
                         }
                     });
                 });

@@ -2,6 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { getFullUrl, isLoggedIn } from "../../lib/utils";
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
+import Navbar from '../../components/Navbar';
 
 export default function Logout() {
     const router = useRouter();
@@ -34,6 +35,7 @@ export default function Logout() {
 
     return (
         <>
+            <Navbar />
             <div className="flex items-center justify-center h-[calc(100vh-80px)] bg-gray-900">
                 <div className="bg-gray-800 p-10 rounded-md w-full sm:w-96">
                     <h1 className="text-3xl font-semibold text-center text-gray-200">

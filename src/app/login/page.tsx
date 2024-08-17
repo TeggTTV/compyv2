@@ -5,6 +5,7 @@ import { FormEvent } from "react";
 import { Bounce, toast } from "react-toastify";
 import { getFullUrl, wait } from "../../lib/utils";
 import { getCookie, setCookie } from "cookies-next";
+import Navbar from "../../components/Navbar";
 
 function Login() {
     const router = useRouter();
@@ -118,6 +119,7 @@ function Login() {
 
     return (
         <>
+            <Navbar />
             <div className="flex h-[calc(100vh-80px)] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-200">

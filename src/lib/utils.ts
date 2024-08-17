@@ -59,6 +59,7 @@ export type ApiRoute =
     | "/api/logout"
     | "/api/verifyemail"
     | "/api/getUserData"
+    | "/api/setUserData";
 
 export const getFullUrl = (
     route: UiRoutes | ApiRoute,

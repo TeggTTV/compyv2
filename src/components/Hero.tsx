@@ -20,7 +20,7 @@ function Hero(props: { theme: string }) {
 			/>
 			<div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
 				<div
-					className="relative inline-flex justify-between items-center py-1 px-1 pr-4 mb-7 text-sm text-gray-700 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+					className="pointer-events-none relative inline-flex justify-between items-center py-1 px-1 pr-4 mb-7 text-sm text-gray-700 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
 					role="alert"
 				>
 					<span className="text-xs bg-blue-600 rounded-full text-white px-4 py-1.5 mr-3">
@@ -28,20 +28,19 @@ function Hero(props: { theme: string }) {
 					</span>{' '}
 					<AnimatedShinyText>
 						<span className="text-sm font-medium">
-							compy is here! Get started with our games.
+							compy is here! Get started by creating an account.
 						</span>
 					</AnimatedShinyText>
 					<ChevronRight className="w-5 h-5 ml-2" />
 				</div>
 
 				<WordFadeIn
-					words="Games That Kids Love"
+					words="Make Learning Fun"
 					className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white"
 				></WordFadeIn>
 				<p className="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">
-					Here at compy, we have a wide range of games that kids love.
-					Our games are designed to be fun and educational, so your
-					kids can learn while they play.
+					Play games, learn new things, and have fun with compy. We make learning fun
+					for everyone. 
 				</p>
 				<div className="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
 					<a

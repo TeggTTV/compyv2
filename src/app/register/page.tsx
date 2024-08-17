@@ -6,6 +6,7 @@ import { Bounce, toast } from "react-toastify";
 import { getFullUrl, wait } from "../../lib/utils";
 
 import formData from 'form-data';
+import Navbar from "../../components/Navbar";
 
 function Register() {
     const [usernameExists, setUsernameExists] = useState(false);
@@ -73,7 +74,7 @@ function Register() {
                     pauseOnHover: true,
                     draggable: true,
                     progress: undefined,
-                    theme: "light",
+                    theme: "dark",
                     transition: Bounce,
                 });
                 wait(1000).then(() => {
@@ -87,6 +88,7 @@ function Register() {
 
     return (
         <>
+            <Navbar />
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-200">

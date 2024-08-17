@@ -78,11 +78,11 @@ export default async function POST(
                             create: {
                                 title: "Welcome to compy! 🚀",
                                 description:
-                                    "We are so excited to have you here. We are sure you will love it here.",
+                                    "We are so excited to have you here. We are a community of developers who are passionate about building amazing products. We can't wait to see what you build. 🎉",
                                 createdAt: new Date(),
                                 onClick: "",
                             },
-                        }
+                        },
                     },
                 })
                 .then(async (result) => {
