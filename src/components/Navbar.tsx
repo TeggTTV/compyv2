@@ -21,19 +21,10 @@ function Navbar() {
 
     async function getNotis() {
         if (isLoggedIn()) {
+            console.log("logged in");
+            
             // check if notis have been refreshed in the last 2 seconds
             if (Date.now() - lastNotisRefreshed < 2000) {
-                // toast.warning('Notifications have been refreshed recently. Please wait a few seconds before refreshing again.', {
-                //     position: "top-center",
-                //     autoClose: 1500,
-                //     hideProgressBar: false,
-                //     closeOnClick: true,
-                //     pauseOnHover: true,
-                //     draggable: true,
-                //     progress: undefined,
-                //     theme: "dark",
-                //     transition: Bounce,
-                // });
                 return;
             }
             const notisGet = await fetch(getFullUrl("/api/getUserData"), {
@@ -49,6 +40,8 @@ function Navbar() {
             const notifications = data.notifications as { id: string, title: string; description: string; read: boolean; onclick: () => void; }[];
 
             setNotis(notifications);
+            console.log(data, notifications);
+            
 
             setLastNotisRefreshed(Date.now());
         } else {
@@ -93,8 +86,8 @@ function Navbar() {
     //     setNotis([...notis, { title, desc }]);
     // }
 
-    function getUnseenNotis(notis: { read: boolean, title: string | null }[]) {
-        return notis.filter((noti) => (!noti.read && noti.title !== null));
+    function getUnseenNotis(n: { read: boolean, title: string | null }[]) {
+        return n.filter((noti) => (!noti.read && noti.title !== null));
     }
 
     // function getNotiCount(notis: { seen: boolean, title: string | null }[]) {
@@ -103,8 +96,8 @@ function Navbar() {
 
 
     function handleNotiClick() {
+        getNotis();
         if (!notiOpen) {
-            getNotis();
             setNotiOpen(true);
             setUserOpen(false);
         } else {
@@ -166,16 +159,6 @@ function Navbar() {
             return e;
         }) as any
     }
-
-    window.document.addEventListener("click", (e) => {
-        if (e.target !== document.getElementById("noti-menu") && e.target !== document.getElementById("notificationBell")) {
-            setNotiOpen(false);
-        }
-        if (e.target !== document.getElementById("user-menu") && e.target !== document.getElementById("userIcon")) {
-            setUserOpen(false);
-        }
-    });
-
 
     return (
         <header className="w-full">
@@ -506,7 +489,6 @@ function Navbar() {
                     </div>
                 ) : ("")
             }
-
         </header >
     );
 }

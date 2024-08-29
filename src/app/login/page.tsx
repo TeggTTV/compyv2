@@ -50,7 +50,10 @@ function Login() {
                 let value = cookie.split("=")[1];
                 if (key === '' || value === '') return;
 
-                setCookie(key, value, { secure: true })
+                console.log(key, value);
+                setCookie(key, decodeURIComponent(value), { secure: true });
+                console.log(decodeURIComponent(value));
+                
             });
 
             response.json().then((data) => {
